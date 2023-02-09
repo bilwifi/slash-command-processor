@@ -1,7 +1,7 @@
-name: help-command
+name: help-command-package
 on:
   repository_dispatch:
-    types: [help-command]
+    types: [help-command-package]
 jobs:
   help:
     runs-on: ubuntu-latest
@@ -13,10 +13,9 @@ jobs:
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           body: |
-            > Command | Description
+            > Commande | Déscription
             > --- | ---
-            > /hello-world | Receive a greeting from the world
-            > /ping [\<args\> ...] | Echos back a list of arguments
-            > /hello-world-local | Receive a greeting from the world (local execution)
-            > /ping-local [\<args\> ...] | Echos back a list of arguments (local execution)
+            > /update-releance | Augmente la version du package en se basant sur semver
+            > /start-merge [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: main)
+            > /help | Obtenir de l'aide sur slash command 
           reaction-type: hooray
