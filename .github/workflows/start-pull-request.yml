@@ -6,7 +6,6 @@ jobs:
   startPullRequest:
     runs-on: ubuntu-latest
     steps:
-      
       - name: Récuperer le nom de la branche cible
         id: vars
         run: |
@@ -28,7 +27,7 @@ jobs:
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           ref: ${{ steps.regex-match.outputs.group1 }}
       - name: Créer un pull request
-        uses: repo-sync/pull-request@v2
+      - uses: repo-sync/pull-request@v2
         with:
           source_branch : ${{ steps.regex-match.outputs.group1 }}
           destination_branch: ${{ steps.vars.outputs.branch }}
