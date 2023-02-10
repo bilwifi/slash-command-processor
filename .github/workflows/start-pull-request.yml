@@ -1,0 +1,46 @@
+name: start-pull-request
+on:
+  repository_dispatch:
+    types: [start-pr-command]
+jobs:
+  startPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      # Get the branch name
+      - name: Récuperer le nom de la branche
+        id: vars
+        run: |
+          branch=${{ github.event.client_payload.slash_command.args.named.branch }}
+          if [[ -z "$branch" ]]; then branch="dev"; fi
+          echo "branch=$branch" >> $GITHUB_OUTPUT
+
+      # Checkout the branch to test
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          ref: ${{ steps.vars.outputs.branch }}
+          
+      - name: Get Issue
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'get-issue'
+          token: ${{ secrets.PAT }}
+      - name: Check outputs
+        run: echo "Outputs issue_number is ${{ steps.createissue.outputs.issue-title }}"
+
+      # Execute scripts, tools or actions
+      - name: Do something
+        run: |
+          # Execute a script, tool or action here
+          #
+          echo "Do something"
+
+      # Add reaction to the comment
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray
