@@ -19,7 +19,7 @@ jobs:
           text: ${{ github.event.client_payload.github.payload.issue.title }}
           regex: '==(.*?)=='
       
-      - if: ${{ steps.regex-match.outputs.match != '' }}
+      # if: ${{ steps.regex-match.outputs.match != '' }}
       - name: Fetch de la branche
       - uses: actions/checkout@v3
         with:
