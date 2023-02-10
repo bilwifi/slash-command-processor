@@ -14,7 +14,6 @@ jobs:
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           body: |
             > Le slash command napp vous permet d’interagir ou d’exécuter des actions sur nos répository github. 
-            |
             > Commande | Déscription
             > --- | ---
             > /update-releance | Augmente la version du package en se basant sur semver
