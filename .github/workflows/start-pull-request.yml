@@ -26,6 +26,7 @@ jobs:
         with:
           actions: 'get-issue'
           token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
       - name: Check outputs
         run: echo "Outputs issue_number is ${{ steps.createissue.outputs.issue-title }}"
