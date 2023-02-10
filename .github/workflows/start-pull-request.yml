@@ -20,17 +20,15 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           ref: ${{ steps.vars.outputs.branch }}
-          
-      - name: Get Issue
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: 'get-issue'
-          token: ${{ secrets.PAT }}
-          repo: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
       - name: Check outputs
         run: echo "Outputs issue_title is ${{ github.event.client_payload.github.payload.issue.title }}"
-
+      - uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ github.event.client_payload.github.payload.issue.title }}
+          regex: '==(.*?)=='
+      - name: Check outputs regex
+        run: echo "Outputs branch is ${{ steps.regex-match.outputs.group1 }}"
       # Execute scripts, tools or actions
       - name: Do something
         run: |
