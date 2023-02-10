@@ -6,35 +6,33 @@ jobs:
   startPullRequest:
     runs-on: ubuntu-latest
     steps:
-      # Get the branch name
-      - name: Récuperer le nom de la branche
+      
+      - name: Récuperer le nom de la branche cible
         id: vars
         run: |
           branch=${{ github.event.client_payload.slash_command.args.named.branch }}
-          if [[ -z "$branch" ]]; then branch="dev"; fi
+          if [[ -z "$branch" ]]; then branch="main"; fi
           echo "branch=$branch" >> $GITHUB_OUTPUT
-
-      # Checkout the branch to test
-      - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PAT }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          ref: ${{ steps.vars.outputs.branch }}
-      - name: Check outputs
-        run: echo "Outputs issue_title is ${{ github.event.client_payload.github.payload.issue.title }}"
+      - name: Récuperer le nom de la branche courante à partir du titre
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
           text: ${{ github.event.client_payload.github.payload.issue.title }}
           regex: '==(.*?)=='
-      - name: Check outputs regex
-        run: echo "Outputs branch is ${{ steps.regex-match.outputs.group1 }}"
-      # Execute scripts, tools or actions
-      - name: Do something
-        run: |
-          # Execute a script, tool or action here
-          #
-          echo "Do something"
+      
+      - if: ${{ steps.regex-match.outputs.match != '' }}
+      - name: Fetch de la branche
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          ref: ${{ steps.regex-match.outputs.group1 }}
+      - name: Créer un pull request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch : ${{ steps.regex-match.outputs.group1 }}
+          destination_branch: ${{ steps.vars.outputs.branch }}
+          github_token: ${{ secrets.PAT }}
 
       # Add reaction to the comment
       - name: Add reaction
