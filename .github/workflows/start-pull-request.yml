@@ -15,7 +15,7 @@ jobs:
       - name: Récuperer le nom de la branche courante à partir du titre
         id: get-current-branch
         run: |
-              branch=$(echo "${{github.event.issue.title}}" | cut -d: -f1 | cut -d"(" -f2 | cut -d")" -f1)
+              branch=$(echo "${{github.event.client_payload.github.payload.issue.title }}" | cut -d: -f1 | cut -d"(" -f2 | cut -d")" -f1)
               echo "branch=$branch" >> $GITHUB_OUTPUT
         #uses: actions-ecosystem/action-regex-match@v2
         #id: regex-match
