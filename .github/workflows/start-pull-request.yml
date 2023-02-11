@@ -36,8 +36,8 @@ jobs:
           source_branch : ${{ steps.get-current-branch.outputs.branch }}
           destination_branch: ${{ steps.vars.outputs.branch }}
           github_token: ${{ secrets.PAT }}
-          pr_body: |  
-                 ${{ github.event.client_payload.github.payload.issue.body }}
+          pr_title: "Pulling ${{ steps.get-current-branch.outputs.branch }} into ${{ steps.vars.outputs.branch}}"
+          pr_body: ${{ github.event.client_payload.github.payload.issue.body }}
           
       
 
