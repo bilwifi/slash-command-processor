@@ -24,12 +24,12 @@ jobs:
           #regex: '==(.*?)=='
       
       # if: ${{ steps.regex-match.outputs.match != '' }}
-      #- name: Fetch de la branche
-       # uses: actions/checkout@v3
-        #with:
-         # token: ${{ secrets.PAT }}
-          #repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          #ref: ${{steps.get-current-branch.outputs.branch}}
+      - name: Fetch de la branche
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          ref: ${{steps.get-current-branch.outputs.branch}}
       - name: Créer un pull request
         uses: repo-sync/pull-request@v2
         with:
