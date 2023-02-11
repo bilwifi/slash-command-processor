@@ -30,12 +30,21 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           ref: ${{steps.get-current-branch.outputs.branch}}
+      - name : Extraire le journal de changement
+        uses: yashanand1910/standard-release-notes@v1.2.1
+        id: get_release_notes
+        with:
+          version: ${{steps.get-current-branch.outputs.branch}}
       - name: Créer un pull request
         uses: repo-sync/pull-request@v2
         with:
           source_branch : ${{ steps.get-current-branch.outputs.branch }}
           destination_branch: ${{ steps.vars.outputs.branch }}
           github_token: ${{ secrets.PAT }}
+          pr_body: |  
+                 ${{ steps.get_release_notes.outputs.release_notes }}
+          
+      
 
       # Add reaction to the comment
       - name: Add reaction
