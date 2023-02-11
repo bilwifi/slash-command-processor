@@ -24,17 +24,12 @@ jobs:
           #regex: '==(.*?)=='
       
       # if: ${{ steps.regex-match.outputs.match != '' }}
-      - name: Fetch de la branche
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PAT }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          ref: ${{steps.get-current-branch.outputs.branch}}
-      - name : Extraire le journal de changement
-        uses: yashanand1910/standard-release-notes@v1.2.1
-        id: get_release_notes
-        with:
-          version: ${{steps.get-current-branch.outputs.branch}}
+      #- name: Fetch de la branche
+       # uses: actions/checkout@v3
+        #with:
+         # token: ${{ secrets.PAT }}
+          #repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          #ref: ${{steps.get-current-branch.outputs.branch}}
       - name: Créer un pull request
         uses: repo-sync/pull-request@v2
         with:
@@ -42,7 +37,7 @@ jobs:
           destination_branch: ${{ steps.vars.outputs.branch }}
           github_token: ${{ secrets.PAT }}
           pr_body: |  
-                 ${{ steps.get_release_notes.outputs.release_notes }}
+                 ${{ github.event.client_payload.github.payload.issue.body }}
           
       
 
