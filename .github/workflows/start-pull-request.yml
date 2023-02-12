@@ -31,6 +31,7 @@ jobs:
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           ref: ${{steps.get-current-branch.outputs.branch}}
       - name: Créer un pull request
+        id: open-pr
         uses: repo-sync/pull-request@v2
         with:
           source_branch : ${{ steps.get-current-branch.outputs.branch }}
@@ -47,6 +48,6 @@ jobs:
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reaction-type: hooray
           body: |
-              > @${{ github.event.issue.user.login }}! 
+              > @${{ github.event.client_payload.github.payload.sender.login }}! 
               > le [PR #${{steps.open-pr.outputs.pr_number}}](${{steps.open-pr.outputs.pr_url}}) a été créer avec succès : (${{steps.open-pr.outputs.pr_url}})
               > l'Issue sera close automatiquement lorsque le PR sera approuvé
