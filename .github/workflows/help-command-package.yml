@@ -17,6 +17,6 @@ jobs:
             > Commande | Déscription
             > --- | ---
             > /update-releance | Augmente la version du package en se basant sur semver
-            > /start-merge [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: main)
+            > /start-pr [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: main)
             > /help | Obtenir de l'aide sur slash command 
           reaction-type: eyes
