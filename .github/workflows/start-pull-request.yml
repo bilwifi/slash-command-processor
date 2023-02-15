@@ -38,7 +38,11 @@ jobs:
           destination_branch: ${{ steps.vars.outputs.branch }}
           github_token: ${{ secrets.PAT }}
           pr_title: "Pulling ${{ steps.get-current-branch.outputs.branch }} into ${{ steps.vars.outputs.branch}}"
-          pr_body: ${{ github.event.client_payload.github.payload.issue.body }}
+          pr_body: |
+                  ${{ github.event.client_payload.github.payload.issue.body }}
+                  >
+                  >
+                  > resolves #${{github.event.client_payload.github.payload.issue.number }} 
           
       - name: Commentaire feedback
         uses: peter-evans/create-or-update-comment@v2
