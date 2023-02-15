@@ -44,7 +44,8 @@ jobs:
                   >
                   > resolves #${{github.event.client_payload.github.payload.issue.number }} 
           
-      - name: Commentaire feedback
+      - name: Commentaire feedback avec les infos du PR
+        if: steps.open-pr.outputs.pr_created
         uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.PAT }}
@@ -55,3 +56,15 @@ jobs:
               > @${{ github.event.client_payload.github.payload.sender.login }} ! 
               > le [PR #${{steps.open-pr.outputs.pr_number}}](${{steps.open-pr.outputs.pr_url}}) a été créer avec succès.
               > l'Issue sera close automatiquement lorsque le PR sera approuvé
+      - name: Commentaire feedback 
+        if: ${{ !steps.open-pr.outputs.pr_created }}
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: "-1"
+          body: |
+              > @${{ github.event.client_payload.github.payload.sender.login }} ! 
+              > le PR n'a pas été créer.
+              > Aucun changement n'a été trouver
