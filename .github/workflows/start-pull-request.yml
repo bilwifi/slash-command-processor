@@ -5,3 +5,4 @@ on:
 jobs:
   start-generic-pull-request:
     uses: bilwifi/gh-action-test/.github/workflows/generic-start-pull-request-from-issue.yml@main
+    secrets: inherit
