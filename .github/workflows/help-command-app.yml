@@ -27,10 +27,7 @@ jobs:
                 echo "EOF" >> $GITHUB_OUTPUT
               
             fi
-       - name: Check value
-         run: |
-           echo "comment. : ${{steps.helpe_message.outputs.comment}}"
-       
+      
        - name: Update comment
          uses: peter-evans/create-or-update-comment@v2
          with:
@@ -41,7 +38,7 @@ jobs:
             > Le slash command napp vous permet d’interagir ou d’exécuter des actions sur nos répository github. 
             > Commande | Déscription
             > --- | ---
+            ${{steps.helpe_message.outputs.comment}}"
             
            
-            > /help | Obtenir de l'aide sur slash command 
           reaction-type: eyes
