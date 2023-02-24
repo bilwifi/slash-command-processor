@@ -16,7 +16,9 @@ jobs:
             > Le slash command napp vous permet d’interagir ou d’exécuter des actions sur nos répository github. 
             > Commande | Déscription
             > --- | ---
-            > /update-releance | Augmente la version du package en se basant sur semver
-            > /start-pr [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: main)
+            > /publish-preview | build et publie une version de prévisualisation de l'application
+            > /updagrade-to-beta  | Fait un PR de la branche release/* vers la branche staging
+            > /updagrade-to-prod  | Fait un PR de la branche staging vers la branche production
+            > /start-pr [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: dev)
             > /help | Obtenir de l'aide sur slash command 
           reaction-type: eyes
