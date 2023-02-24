@@ -1,0 +1,22 @@
+name: help-command-app
+on:
+  repository_dispatch:
+    types: [help-command-app]
+jobs:
+  help:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          body: |
+            > Le slash command napp vous permet d’interagir ou d’exécuter des actions sur nos répository github. 
+            > Commande | Déscription
+            > --- | ---
+            > /update-releance | Augmente la version du package en se basant sur semver
+            > /start-pr [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: main)
+            > /help | Obtenir de l'aide sur slash command 
+          reaction-type: eyes
