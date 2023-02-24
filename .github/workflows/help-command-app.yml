@@ -16,7 +16,7 @@ jobs:
             comment_app_expo=''
             comment_app_web=''
             
-            if [ github.event.client_payload.pull_request ]
+            if [ ${{github.event.client_payload.pull_request}} ]
             then
                 echo "comment<<EOF" >> $GITHUB_OUTPUT
                 echo "${comment_pr}" >> $GITHUB_OUTPUT
