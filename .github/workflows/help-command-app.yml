@@ -19,6 +19,6 @@ jobs:
             > /publish-preview | build et publie une version de prévisualisation de l'application
             > /updagrade-to-beta  | Fait un PR de la branche release/* vers la branche staging
             > /updagrade-to-prod  | Fait un PR de la branche staging vers la branche production
-            > /start-pr [\<branch=\>]<name_branch> | Fait un PR à la branche spécifier.(par défaut: dev)
+            > /start-pr [\<branch=\>]<name_branch> | Fait un PR vers la branche spécifier.(par défaut: dev)
             > /help | Obtenir de l'aide sur slash command 
           reaction-type: eyes
