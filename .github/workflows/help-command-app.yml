@@ -6,9 +6,39 @@ jobs:
   help:
     runs-on: ubuntu-latest
     steps:
-      - name: Update comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
+       - name: Formater le message 
+         id: helpe_message
+         run: |
+            comment_pr='
+              > /publish-preview | build et publie une version de prévisualisation de l'application'
+            comment_issue=' 
+              > /updagrade-to-beta  | Fait un PR de la branche release/* vers la branche staging
+              > /updagrade-to-prod  | Fait un PR de la branche staging vers la branche production
+              > /start-pr [\<branch=\>]<name_branch> | Fait un PR vers la branche spécifier.(par défaut: dev)'
+            comment_app_expo=''
+            comment_app_web=''
+            
+            if [ "${{github.event.client_payload.github.payload.issue}}"]
+            then
+                echo "comment<<EOF" >> $GITHUB_OUTPUT
+                echo "${comment_issue}" >> $GITHUB_OUTPUT
+                echo "EOF" >> $GITHUB_OUTPUT
+            else
+                echo "comment<<EOF" >> $GITHUB_OUTPUT
+                echo "${comment_pr}" >> $GITHUB_OUTPUT
+                echo "EOF" >> $GITHUB_OUTPUT
+              
+            fi
+       - name: Check value
+         run: |
+           echo "comment. : ${{steps.helpe_message.outputs.comment}}"
+       - name: Dump the client payload context
+         env:
+          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+         run: echo "$PAYLOAD_CONTEXT"     
+       - name: Update comment
+         uses: peter-evans/create-or-update-comment@v2
+         with:
           token: ${{ secrets.PAT }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
@@ -16,9 +46,7 @@ jobs:
             > Le slash command napp vous permet d’interagir ou d’exécuter des actions sur nos répository github. 
             > Commande | Déscription
             > --- | ---
-            > /publish-preview | build et publie une version de prévisualisation de l'application
-            > /updagrade-to-beta  | Fait un PR de la branche release/* vers la branche staging
-            > /updagrade-to-prod  | Fait un PR de la branche staging vers la branche production
-            > /start-pr [\<branch=\>]<name_branch> | Fait un PR vers la branche spécifier.(par défaut: dev)
+            
+           
             > /help | Obtenir de l'aide sur slash command 
           reaction-type: eyes
