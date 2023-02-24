@@ -5,29 +5,25 @@ on:
 jobs:
   help:
     runs-on: ubuntu-latest
-    steps:
-       - name: Dump the client payload context
-         env:
-          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
-         run: echo "$PAYLOAD_CONTEXT"     
+    steps:     
        - name: Formater le message 
          id: helpe_message
          run: |
-            comment_pr='> /publish-preview | build et publie une version de prévisualisation de l'application'
-            comment_issue='> /updagrade-to-beta  | Fait un PR de la branche release/* vers la branche staging
-              > /updagrade-to-prod  | Fait un PR de la branche staging vers la branche production
-              > /start-pr [\<branch=\>]<name_branch> | Fait un PR vers la branche spécifier.(par défaut: dev)'
+            comment_pr='> `/publish-preview` | build et publie une version de prévisualisation de l'application'
+            comment_issue='> `/updagrade-to-beta`  | Fait un PR de la branche release/* vers la branche staging
+              > `/updagrade-to-prod`  | Fait un PR de la branche staging vers la branche production
+              > `/start-pr` [\<branch=\>]<name_branch> | Fait un PR vers la branche spécifier.(par défaut: dev)'
             comment_app_expo=''
             comment_app_web=''
             
-            if [ "${{github.event.client_payload.github.payload.issue}}"]
+            if [ github.event.client_payload.pull_request ]
             then
                 echo "comment<<EOF" >> $GITHUB_OUTPUT
-                echo "${comment_issue}" >> $GITHUB_OUTPUT
+                echo "${comment_pr}" >> $GITHUB_OUTPUT
                 echo "EOF" >> $GITHUB_OUTPUT
             else
                 echo "comment<<EOF" >> $GITHUB_OUTPUT
-                echo "${comment_pr}" >> $GITHUB_OUTPUT
+                echo "${comment_issue}" >> $GITHUB_OUTPUT
                 echo "EOF" >> $GITHUB_OUTPUT
               
             fi
