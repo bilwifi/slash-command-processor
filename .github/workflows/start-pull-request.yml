@@ -1,7 +1,7 @@
 name: start-pull-request
 on:
   repository_dispatch:
-    types: [start-pr-command,upgrade-to-beta-command,start-pr-command,updgrade-to-prod]
+    types: [start-pr-command,upgrade-to-beta-command,updgrade-to-prod-command]
 jobs:
   start-generic-pull-request:
     uses: bilwifi/gh-action-test/.github/workflows/generic-start-pull-request-from-issue.yml@main
